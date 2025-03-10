@@ -11,7 +11,7 @@ export default function PagesLayout({
   return (
     <>
       <Header></Header>
-      <div className="relative flex grow size-full">
+      <div className="relative flex grow size-full p-4">
         {children}
         <ScannerButton></ScannerButton>
       </div>

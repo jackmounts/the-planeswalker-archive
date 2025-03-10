@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const LoginPage: React.FC = () => {
@@ -7,13 +8,15 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="flex flex-row items-center justify-center size-full bg-[url('/images/login_bg.svg')] bg-cover bg-center">
-      <div className="hidden lg:flex w-3/5"></div>
+      <div className="hidden lg:flex w-3/5">
+        {/* https://sketchfab.com/3d-models/trading-card-blank-low-poly-798f5a9b46bb439ca413c40e7938a6ed */}
+      </div>
       <div className="flex flex-col w-full lg:w-2/5 items-center justify-start gap-y-4">
         <div className="flex flex-col items-center justify-center w-full text-white font-semibold mb-10">
-          <div className="flex w-9/10 lg:w-7/10 text-6xl">
+          <div className="flex w-9/10 lg:w-7/10 text-3xl lg:text-6xl">
             <p>Welcome back,</p>
           </div>
-          <div className="flex w-9/10 lg:w-7/10 text-8xl">
+          <div className="flex w-9/10 lg:w-7/10 text-5xl lg:text-8xl">
             <p>Planeswalker</p>
           </div>
         </div>
@@ -40,12 +43,14 @@ const LoginPage: React.FC = () => {
           />
         </div>
         <div className="flex w-9/10 lg:w-7/10">
-          <button className="bg-gray-800 text-white rounded-2xl px-4 py-2 w-full h-18 font-semibold hover:bg-gray-900">
-            Log In
-          </button>
+          <Link href={"/"} className="w-full">
+            <button className="bg-gray-800 text-white rounded-2xl px-4 py-2 w-full h-16 font-semibold hover:bg-gray-900">
+              Log In
+            </button>
+          </Link>
         </div>
         <div className="flex w-9/10 lg:w-7/10">
-          <button className="bg-gray-200 text-gray-900 rounded-2xl px-4 py-2 w-full h-18 font-semibold hover:bg-gray-900 hover:text-white">
+          <button className="bg-gray-200 text-gray-900 rounded-2xl px-4 py-2 w-full h-16 font-semibold hover:bg-gray-900 hover:text-white">
             Register
           </button>
         </div>
