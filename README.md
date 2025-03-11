@@ -12,6 +12,23 @@ Unoriginal App for all devices that let's you manage your Magic: The Gathering c
 - Simple local storage using Dexie.js
 - Bundled for Browsers, desktops and mobile with Capacitor.js
 
+## Todos
+
+### PWA
+
+- [ ] Create favicons
+- [ ] Manage service workers
+- [ ] Integrate Capacitor
+
+### App
+
+- [ ] Implement scanner
+- [ ] Implement IndexedDB
+- [ ] Implement app state management
+- [ ] Create cool UIs
+- [ ] Implement ![Scryfall.com](www.scryfall.com) REST Apis for image visualization
+- [ ] Build analysis & optimization
+
 ## Possible Future Implementations
 
 - [ ] Hosted Supabase
