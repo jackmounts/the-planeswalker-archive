@@ -10,7 +10,10 @@ const ScannerButton: React.FC = () => {
 
   return (
     <div className="absolute right-0 bottom-0 p-4 z-50 ">
-      <button onClick={handleClick} className="rounded-full bg-gray-800 p-4">
+      <button
+        onClick={handleClick}
+        className="rounded-full bg-[var(--primary-color)] p-4"
+      >
         <Image src={addIcon} alt={"Add icon"} className="size-[30]"></Image>
       </button>
     </div>

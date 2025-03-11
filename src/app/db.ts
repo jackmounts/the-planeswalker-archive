@@ -2,6 +2,7 @@ import Dexie, { type EntityTable } from "dexie";
 
 interface Card {
   uuid: number;
+  profile_uuid: number;
   code: string;
   number: number;
   id?: string;
@@ -13,6 +14,7 @@ interface Card {
   foil?: boolean;
   quantity?: number;
   price?: number;
+  collection_uuid?: number[];
 }
 
 interface Collection {

@@ -27,7 +27,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body
-        className={`${poppins.variable} antialiased flex flex-col h-screen`}
+        className={`${poppins.variable} antialiased flex flex-col max-h-screen`}
       >
         {children}
       </body>

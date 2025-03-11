@@ -10,12 +10,18 @@ export default function PagesLayout({
 }>) {
   return (
     <>
-      <Header></Header>
+      <div>
+        <Header></Header>
+      </div>
       <div className="relative flex grow size-full p-4">
         {children}
-        <ScannerButton></ScannerButton>
+        <div className="lg:hidden">
+          <ScannerButton></ScannerButton>
+        </div>
       </div>
-      <Footer></Footer>
+      <div className="lg:hidden">
+        <Footer></Footer>
+      </div>
     </>
   );
 }
