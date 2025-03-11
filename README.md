@@ -27,7 +27,7 @@ Unoriginal App for all devices that let's you manage your Magic: The Gathering c
 - [ ] Implement IndexedDB
 - [ ] Implement app state management
 - [ ] Create cool UIs
-- [ ] Implement ![Scryfall.com](www.scryfall.com) REST Apis for image visualization
+- [ ] Implement [Scryfall.com](https://www.scryfall.com) REST Apis for image visualization
 - [ ] Build analysis & optimization
 
 ## Possible Future Implementations
