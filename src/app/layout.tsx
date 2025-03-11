@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import Head from "next/head";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -22,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="m-0">
+      <Head>
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
       <body
         className={`${poppins.variable} antialiased flex flex-col h-screen`}
       >

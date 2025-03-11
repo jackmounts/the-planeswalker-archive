@@ -9,7 +9,8 @@ Unoriginal App for all devices that let's you manage your Magic: The Gathering c
 - Threejs with fiber and drei implementations
 - GSAP core
 - Image Recognition Using Machine Learning
-- Simple local storage using Dexie.js
+- Simple persistend IndexedDB storage using Dexie.js
+- Zustand for store data management
 - Bundled for Browsers, desktops and mobile with Capacitor.js
 
 ## Possible Future Implementations

@@ -1,12 +1,18 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const withPWA = require("next-pwa")({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  skipWaiting: true,
+});
+
+const nextConfig: NextConfig = withPWA({
   async rewrites() {
     return [
       {
-        source: "/:path*", // Cattura tutti i percorsi (/*)
-        destination: "/pages/:path*", // Mappa internamente su /pages/*
+        source: "/:path*",
+        destination: "/pages/:path*",
       },
     ];
   },
@@ -18,6 +24,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-};
+});
 
 export default nextConfig;
