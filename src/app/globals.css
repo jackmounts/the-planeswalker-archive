@@ -41,3 +41,16 @@ body {
   display: inline-block;
   overflow: hidden;
 }
+
+.bubble-head::after {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid white;
+  right: 20%;
+  top: -10px;
+}

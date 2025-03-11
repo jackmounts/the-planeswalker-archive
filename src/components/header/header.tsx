@@ -14,7 +14,7 @@ import logoutIcon from "../../../public/icons/logout.svg";
 const Header: React.FC = () => {
   return (
     <header>
-      <div className="flex flex-row shrink-0 w-full bg-[var(--primary-color)] p-4 justify-between items-center">
+      <div className="flex flex-row shrink-0 w-full bg-[var(--primary-color)] px-8 py-4 justify-between items-center">
         <div className="relative flex items-center bg-gray-50 rounded-2xl w-4/5 text-white">
           <input
             type="text"
@@ -28,8 +28,10 @@ const Header: React.FC = () => {
             onClick={() => console.log("Search")}
           />
         </div>
-        <DropdownExplore />
-        <DropdownProfile />
+        <div className="flex flex-row justify-around items-center gap-8">
+          <DropdownExplore />
+          <DropdownProfile />
+        </div>
       </div>
     </header>
   );
@@ -56,16 +58,20 @@ const DropdownExplore: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative inline-block max-md:hidden" ref={dropdownRef}>
+    <div className="relative inline-block max-lg:hidden" ref={dropdownRef}>
       <div
         className="flex flex-row justify-center items-center hover:cursor-pointer hover:font-semibold"
         onClick={toggleDropdown}
       >
         <div className="text-white text-lg">Explore</div>
-        <Image src={dropdownIcon} alt={"Dropdown image"} />
+        <Image
+          src={dropdownIcon}
+          alt={"Dropdown image"}
+          className={isDropdownOpen ? "rotate-180" : ""}
+        />
       </div>
       {isDropdownOpen && (
-        <ul className="absolute top-full left-0 px-8 py-6 z-50 bg-white dark:bg-[var(--background)] rounded-2xl shadow-lg min-w-max">
+        <ul className="absolute text-lg top-full right-0 px-8 py-6 z-50 bg-white dark:bg-[var(--background)] rounded-2xl shadow-lg min-w-max">
           <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer">
             <Image src={homeIcon} alt={"Home icon"} className="invert" />
             <Link href={"/"} onClick={toggleDropdown}>
@@ -115,7 +121,7 @@ const DropdownProfile: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative inline-block max-md:hidden" ref={dropdownRef}>
+    <div className="relative inline-block max-lg:hidden" ref={dropdownRef}>
       <div
         className="flex flex-row justify-center items-center hover:cursor-pointer hover:font-semibold"
         onClick={toggleDropdown}
@@ -124,11 +130,10 @@ const DropdownProfile: React.FC = () => {
           src={accountIcon}
           alt={"Account image"}
           className="size-8 hover:scale-110 hover:cursor-pointer"
-          onClick={() => console.log("Profile")}
         />
       </div>
       {isDropdownOpen && (
-        <ul className="absolute top-full right-0 py-6 px-8 z-50 bg-white dark:bg-[var(--background)] rounded-2xl shadow-lg min-w-max">
+        <ul className="absolute text-lg top-full right-0 py-6 px-8 z-50 bg-white dark:bg-[var(--background)] rounded-2xl shadow-lg min-w-max">
           <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer">
             <Image src={personIcon} alt={"Home icon"} className="invert" />
             <Link href={"/profile"} onClick={toggleDropdown}>
