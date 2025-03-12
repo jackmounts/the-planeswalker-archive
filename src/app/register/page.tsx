@@ -23,9 +23,7 @@ const RegisterPage: React.FC = () => {
   // return errorsList.length === 0;
 
   return (
-    <div>
-      <h1>Register Page</h1>
-    </div>
+    <div className="flex flex-col items-center justify-center size-full wavy-background"></div>
   );
 };
 
