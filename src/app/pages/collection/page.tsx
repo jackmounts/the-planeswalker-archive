@@ -1,3 +1,5 @@
+"use client";
+import withAuth from "@/components/hoc/withAuth";
 import React from "react";
 
 const CollectionPage: React.FC = () => {
@@ -9,4 +11,4 @@ const CollectionPage: React.FC = () => {
   );
 };
 
-export default CollectionPage;
+export default withAuth(CollectionPage);

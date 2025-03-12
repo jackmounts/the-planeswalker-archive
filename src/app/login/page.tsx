@@ -1,14 +1,22 @@
 "use client";
+import useProfileStore from "@/store/profile-store";
 import { Common, Card } from "@/utils/models";
 import { OrbitControls, Preload, View } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import warningIcon from "@public/icons/warning.svg";
 
 const LoginPage: React.FC = () => {
+  const { logIn } = useProfileStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setPasswordIsValid] = useState(false);
+  const [errors, setErrors] = useState<string>();
   const [element, setElement] = useState<HTMLElement>();
 
   /**
@@ -20,6 +28,51 @@ const LoginPage: React.FC = () => {
       setElement(root);
     }
   }, []);
+
+  const login = async () => {
+    if (!checkValidity()) return;
+    await logIn(email, password)
+      .then(() => {
+        setErrors("");
+        const router = useRouter();
+        router.push("/");
+      })
+      .catch(() => {
+        setErrors(
+          "Alas, the gates remain closed. Check your credentials and try again."
+        );
+      });
+  };
+
+  useEffect(() => {
+    checkEmailValidity();
+    checkPasswordValidity();
+    checkValidity();
+  }, [email, password]);
+
+  const checkValidity = (): boolean => {
+    const res = isEmailValid && isPasswordValid;
+    setIsFormValid(res);
+    return res;
+  };
+
+  const checkEmailValidity = (): boolean => {
+    const email = document.getElementById("email") as HTMLInputElement;
+    if (!email) return false;
+    const emailValue = email.value;
+    const res = email.validity.valid && emailValue.length > 0;
+    setIsEmailValid(res);
+    return res;
+  };
+
+  const checkPasswordValidity = (): boolean => {
+    const password = document.getElementById("password") as HTMLInputElement;
+    if (!password) return false;
+    const passwordValue = password.value;
+    const res = password.validity.valid && passwordValue.length > 6;
+    setPasswordIsValid(res);
+    return res;
+  };
 
   return (
     <>
@@ -38,15 +91,15 @@ const LoginPage: React.FC = () => {
         <div className="flex flex-col w-full lg:w-2/5 items-center justify-start gap-y-4">
           <div className="flex flex-col items-center justify-center w-full text-white font-semibold mb-10">
             <div className="flex w-9/10 lg:w-7/10 text-3xl lg:text-4xl">
-              <p>Welcome back,</p>
+              <p className="drop-shadow-2xl">Welcome back,</p>
             </div>
             <div className="flex w-9/10 lg:w-7/10 text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
-              <p>Planeswalker</p>
+              <p className="drop-shadow-2xl">Planeswalker</p>
             </div>
           </div>
           <div className="flex w-9/10 lg:w-7/10">
             <input
-              className="w-full h-12 bg-white rounded-lg px-4 placeholder:italic placeholder:text-gray-500"
+              className="w-full h-12 bg-white rounded-lg px-4 placeholder:italic placeholder:text-gray-500 shadow-2xl focus:outline-0 focus:invalid:outline-2 focus:invalid:outline-pink-500"
               type="email"
               id="email"
               placeholder="Email"
@@ -57,7 +110,7 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="flex w-9/10 lg:w-7/10">
             <input
-              className="w-full h-12 bg-white rounded-lg px-4 placeholder:italic placeholder:text-gray-500"
+              className="w-full h-12 bg-white rounded-lg px-4 placeholder:italic placeholder:text-gray-500 shadow-2xl focus:outline-0 focus:invalid:outline-2 focus:invalid:outline-pink-500"
               type="password"
               id="password"
               placeholder="Password"
@@ -67,17 +120,37 @@ const LoginPage: React.FC = () => {
             />
           </div>
           <div className="flex w-9/10 lg:w-7/10">
-            <Link href={"/"} className="w-full">
-              <button className="bg-gray-800 text-white rounded-2xl px-4 py-2 w-full h-16 font-semibold hover:bg-gray-900 cursor-pointer">
-                Log In
-              </button>
-            </Link>
-          </div>
-          <div className="flex w-9/10 lg:w-7/10">
-            <button className="bg-gray-200 text-gray-900 rounded-2xl px-4 py-2 w-full h-16 font-semibold hover:bg-gray-900 hover:text-white cursor-pointer">
-              Register
+            <button
+              onClick={login}
+              disabled={!isFormValid}
+              id="submit"
+              className="bg-gray-800 text-white rounded-2xl px-4 py-2 w-full h-16 font-semibold hover:bg-gray-900 cursor-pointer shadow-2xl disabled:bg-gray-600 disabled:cursor-not-allowed"
+            >
+              Log In
             </button>
           </div>
+          <div className="mt-2 flex w-9/10 lg:w-7/10">
+            <Link href={"/register"} className="w-full">
+              <p className="font-medium text-lg text-white">
+                New to the arcane arts? Inscribe your name in the archives{" "}
+                <span className="underline font-semibold">here</span>.
+              </p>
+            </Link>
+          </div>
+          {errors && (
+            <div className="flex flex-row justify-start items-center gap-x-4 w-9/10 lg:w-7/10">
+              <Image
+                src={warningIcon}
+                alt={"Warning Icon"}
+                className="fill-pink-200 size-8"
+                style={{
+                  filter:
+                    "invert(30%) sepia(100%) saturate(200%) hue-rotate(300deg)",
+                }}
+              />
+              <div className="text-pink-200 font-semibold">{errors}</div>
+            </div>
+          )}
         </div>
       </div>
       <Canvas className="canvas" eventSource={element}>

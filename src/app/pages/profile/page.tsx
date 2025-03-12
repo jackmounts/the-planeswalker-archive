@@ -1,3 +1,5 @@
+"use client";
+import withAuth from "@/components/hoc/withAuth";
 import React from "react";
 
 const ProfilePage: React.FC = () => {
@@ -9,4 +11,4 @@ const ProfilePage: React.FC = () => {
   );
 };
 
-export default ProfilePage;
+export default withAuth(ProfilePage);

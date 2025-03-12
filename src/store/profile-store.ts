@@ -1,9 +1,11 @@
 import { create } from "zustand";
 import db, { Profile } from "@/app/db";
+import { v4 as uuidv4 } from "uuid";
 
 type ProfileState = {
   logged_profile_uuid: number | null;
   profile: Profile | null;
+  session: string | null;
   login_error: boolean | null;
 };
 
@@ -17,12 +19,19 @@ type ProfileAction = {
 const useProfileStore = create<ProfileState & ProfileAction>((set) => ({
   logged_profile_uuid: null,
   profile: null,
+  session: null,
   login_error: null,
 
   logIn: async (email, password) => {
+    const sessionId = uuidv4();
     const profile = await db.profiles.where({ email, password }).first();
     if (profile) {
-      set({ logged_profile_uuid: profile.uuid, profile, login_error: false });
+      set({
+        logged_profile_uuid: profile.uuid,
+        session: sessionId,
+        profile,
+        login_error: false,
+      });
     } else {
       set({ login_error: true });
     }
