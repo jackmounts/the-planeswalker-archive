@@ -49,7 +49,7 @@ const db = new Dexie("mtgdb") as Dexie & {
 db.version(1).stores({
   cards: "+++uuid, code, number",
   collections: "+++uuid, name, type, profile_uuid",
-  profiles: "+++uuid, name, email",
+  profiles: "+++uuid, name, email, password",
 });
 
 export default db;
