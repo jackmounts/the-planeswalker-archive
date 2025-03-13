@@ -1,26 +1,74 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ebebeb;
+  --foreground: #353535;
+  --primary-color: #731fa1;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #353535;
+    --foreground: #ebebeb;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", sans-serif;
+}
+
+.canvas {
+  pointer-events: none;
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.view {
+  margin: 0.2em;
+  width: 100%;
+  height: 900px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.wavy-background {
+  background: radial-gradient(circle at center, #b19ec5, #8761eb);
+  background-size: 200% 200%;
+  animation: moveGradient 15s ease-in-out infinite;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 50% 50%;
+  }
+  20% {
+    background-position: 67% 24%;
+  }
+  40% {
+    background-position: 12% 78%;
+  }
+  60% {
+    background-position: 25% 41%;
+  }
+  80% {
+    background-position: 80% 83%;
+  }
+  100% {
+    background-position: 50% 50%;
+  }
 }
