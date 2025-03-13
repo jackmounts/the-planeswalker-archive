@@ -52,6 +52,11 @@ body {
   justify-content: center;
 }
 
+.caret-bold {
+  border-right: 0.1em solid white;
+  animation: blink-caret 1s step-end infinite;
+}
+
 @keyframes moveGradient {
   0% {
     background-position: 50% 50%;
@@ -70,5 +75,15 @@ body {
   }
   100% {
     background-position: 50% 50%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: white;
   }
 }

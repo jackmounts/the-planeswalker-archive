@@ -1,29 +1,126 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+
+type Step = 1 | 2 | 3 | 4;
+type Gender = "male" | "female" | "non-binary" | undefined;
+type SkillLevel = "beginner" | "intermediate" | "advanced" | "pro" | undefined;
 
 const RegisterPage: React.FC = () => {
-  // const errorsList = [];
-  // if (passwordValue.length < 8) {
-  //   errorsList.push("La password deve avere almeno 8 caratteri.");
-  // }
-  // if (!/[A-Z]/.test(passwordValue)) {
-  //   errorsList.push("La password deve contenere almeno una lettera maiuscola.");
-  // }
-  // if (!/[a-z]/.test(passwordValue)) {
-  //   errorsList.push("La password deve contenere almeno una lettera minuscola.");
-  // }
-  // if (!/[0-9]/.test(passwordValue)) {
-  //   errorsList.push("La password deve contenere almeno un numero.");
-  // }
-  // if (!/[!@#$%^&*]/.test(passwordValue)) {
-  //   errorsList.push("La password deve contenere almeno un carattere speciale.");
-  // }
-  // if (errorsList.length > 0) {
-  // }
-  // setErrors(errorsList);
-  // return errorsList.length === 0;
+  const [step, setStep] = useState<Step>(1);
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [gender, setGender] = useState<Gender>();
+  const [skillLevel, setSkillLevel] = useState<SkillLevel>();
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [errorsPassword, setErrorsPassword] = useState<string[]>();
+  const [errorsRepeat, setErrorsRepeat] = useState<string[]>();
+
+  const checkPasswordValidity = () => {
+    const passwordInput = document.getElementById(
+      "password"
+    ) as HTMLInputElement;
+    if (!passwordInput) return;
+    const passwordValue = passwordInput.value;
+    const errorsList = [];
+    if (passwordValue.length < 8) {
+      errorsList.push("La password deve avere almeno 8 caratteri.");
+    }
+    if (!/[A-Z]/.test(passwordValue)) {
+      errorsList.push(
+        "La password deve contenere almeno una lettera maiuscola."
+      );
+    }
+    if (!/[a-z]/.test(passwordValue)) {
+      errorsList.push(
+        "La password deve contenere almeno una lettera minuscola."
+      );
+    }
+    if (!/[0-9]/.test(passwordValue)) {
+      errorsList.push("La password deve contenere almeno un numero.");
+    }
+    if (!/[!@#$%^&*]/.test(passwordValue)) {
+      errorsList.push(
+        "La password deve contenere almeno un carattere speciale."
+      );
+    }
+    setErrorsPassword(errorsList);
+  };
+
+  useEffect(() => {
+    checkPasswordValidity();
+  }, [password]);
+
+  const checkRepeatValidity = () => {
+    const repeatInput = document.getElementById(
+      "confirm-password"
+    ) as HTMLInputElement;
+    if (!repeatInput) return;
+    const repeatValue = repeatInput.value;
+    const errorsList = [];
+    if (repeatValue !== password) {
+      errorsList.push("Le password non corrispondono.");
+    }
+    setErrorsRepeat(errorsList);
+  };
+
+  useEffect(() => {
+    checkRepeatValidity();
+  }, [confirmPassword]);
+
+  const checkValidity = () => {
+    const res =
+      email.length > 0 &&
+      password.length > 0 &&
+      confirmPassword.length > 0 &&
+      username.length > 0 &&
+      errorsPassword?.length === 0 &&
+      errorsRepeat?.length === 0;
+    setIsFormValid(res);
+  };
+
+  useEffect(() => {
+    checkValidity();
+  });
+
+  const nextStep = () => {
+    setStep((prev) => (prev < 4 ? ((prev + 1) as Step) : prev));
+  };
+
+  const prevStep = () => {
+    setStep((prev) => (prev > 1 ? ((prev - 1) as Step) : prev));
+  };
+
+  const register = async () => {};
 
   return (
-    <div className="flex flex-col items-center justify-center size-full wavy-background"></div>
+    <div className="flex flex-col items-center justify-center size-full gap-4 wavy-background text-white text-6xl">
+      <div className="w-full lg:w-3/4">Welcome to the archives, Wizard!</div>
+      <div className="w-full lg:w-3/4 flex flex-row justify-start items-center gap-x-4 flex-nowrap">
+        <div className="basis-3/4">How do you want to be called?</div>
+        <div className="basis-1/4">
+          <input
+            type="text"
+            id="username"
+            placeholder="Liliana of the Veil"
+            value={username}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoFocus
+            className="outline-none font-semibold animate-pulse"
+          />
+        </div>
+      </div>
+      <div className="w-full lg:w-3/4 flex justify-end">
+        <div
+          onClick={nextStep}
+          className="bg-white text-2xl rounded-2xl px-4 py-2 text-black"
+        >
+          NEXT
+        </div>
+      </div>
+    </div>
   );
 };
 
