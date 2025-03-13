@@ -1,3 +1,6 @@
+![Lint Status](https://github.com/jackmounts/the-planeswalker-archive/actions/workflows/lint.yml/badge.svg) ![CodeQL](https://github.com/jackmounts/the-planeswalker-archive/actions/workflows/codeql.yml/badge.svg)
+
+
 # :dizzy::boom: The Planeswalker's Archive :mage_man::mage_woman::magic_wand:
 
 Unoriginal App for all devices that let's you manage your Magic: The Gathering collections in an original way. Add your cards manually or scan it with the in app scanner. Create virtual drawers and decks so you will always know where your spells are. :sunny::droplet::skull_and_crossbones::fire::evergreen_tree:
