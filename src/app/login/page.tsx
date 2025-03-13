@@ -18,6 +18,7 @@ const LoginPage: React.FC = () => {
   const [isPasswordValid, setPasswordIsValid] = useState(false);
   const [errors, setErrors] = useState<string>();
   const [element, setElement] = useState<HTMLElement>();
+  const router = useRouter();
 
   /**
    * Set the root element
@@ -30,11 +31,10 @@ const LoginPage: React.FC = () => {
   }, []);
 
   const login = async () => {
-    if (!checkValidity()) return;
+    if (!isFormValid) return;
     await logIn(email, password)
       .then(() => {
         setErrors("");
-        const router = useRouter();
         router.push("/");
       })
       .catch(() => {
@@ -44,34 +44,32 @@ const LoginPage: React.FC = () => {
       });
   };
 
+  const checkValidity = () => {
+    const res = isEmailValid && isPasswordValid;
+    setIsFormValid(res);
+  };
+
   useEffect(() => {
     checkEmailValidity();
     checkPasswordValidity();
     checkValidity();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, password]);
 
-  const checkValidity = (): boolean => {
-    const res = isEmailValid && isPasswordValid;
-    setIsFormValid(res);
-    return res;
-  };
-
-  const checkEmailValidity = (): boolean => {
+  const checkEmailValidity = () => {
     const email = document.getElementById("email") as HTMLInputElement;
     if (!email) return false;
     const emailValue = email.value;
     const res = email.validity.valid && emailValue.length > 0;
     setIsEmailValid(res);
-    return res;
   };
 
-  const checkPasswordValidity = (): boolean => {
+  const checkPasswordValidity = () => {
     const password = document.getElementById("password") as HTMLInputElement;
     if (!password) return false;
     const passwordValue = password.value;
     const res = password.validity.valid && passwordValue.length > 6;
     setPasswordIsValid(res);
-    return res;
   };
 
   return (

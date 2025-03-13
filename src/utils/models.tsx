@@ -1,7 +1,6 @@
 import { Environment, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export function Common({ color }: { color?: string }) {
   return (
     <>
