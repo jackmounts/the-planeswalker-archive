@@ -1,5 +1,7 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
+import { MoveRight } from "lucide-react";
 
 type Step = 1 | 2 | 3 | 4;
 type Gender = "male" | "female" | "non-binary" | undefined;
@@ -85,41 +87,49 @@ const RegisterPage: React.FC = () => {
   });
 
   const nextStep = () => {
-    setStep((prev) => (prev < 4 ? ((prev + 1) as Step) : prev));
+    setStep((prev) => (prev + 1) as Step);
   };
 
   const prevStep = () => {
-    setStep((prev) => (prev > 1 ? ((prev - 1) as Step) : prev));
+    setStep((prev) => (prev - 1) as Step);
   };
 
   const register = async () => {};
 
   return (
-    <div className="flex flex-col items-center justify-center size-full gap-4 wavy-background text-white text-6xl">
-      <div className="w-full lg:w-3/4">Welcome to the archives, Wizard!</div>
-      <div className="w-full lg:w-3/4 flex flex-row justify-start items-center gap-x-4 flex-nowrap">
-        <div className="basis-3/4">How do you want to be called?</div>
-        <div className="basis-1/4">
-          <input
-            type="text"
-            id="username"
-            placeholder="Liliana of the Veil"
-            value={username}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoFocus
-            className="outline-none font-semibold animate-pulse"
-          />
-        </div>
-      </div>
-      <div className="w-full lg:w-3/4 flex justify-end">
-        <div
-          onClick={nextStep}
-          className="bg-white text-2xl rounded-2xl px-4 py-2 text-black"
-        >
-          NEXT
-        </div>
-      </div>
+    <div className="flex flex-row items-center justify-center size-full wavy-background">
+      {step === 1 && (
+        <>
+          <div className="flex flex-col items-center justify-center size-full gap-4 text-white text-6xl">
+            <div className="w-full lg:w-3/4">
+              Welcome to the archives, Wizard!
+            </div>
+            <div className="w-full lg:w-3/4 flex flex-row justify-start items-center gap-x-4 flex-nowrap">
+              <div>How do you want to be called?</div>
+              <div>
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="Liliana of the Veil"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  autoFocus
+                  className="outline-none font-semibold animate-pulse"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="w-1/10">
+            <MoveRight
+              color="white"
+              size={128}
+              className="cursor-pointer"
+              onClick={nextStep}
+            ></MoveRight>
+          </div>
+        </>
+      )}
     </div>
   );
 };
