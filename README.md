@@ -21,6 +21,7 @@ Unoriginal App for all devices that let's you manage your Magic: The Gathering c
 - Simple persistend IndexedDB storage using Dexie.js
 - Zustand for store data management
 - Bundled for Browsers, desktops and mobile with Capacitor.js
+- [shadcn/ui](https://ui.shadcn.com/) awesome components
 
 ## Todos
 
