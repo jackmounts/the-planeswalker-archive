@@ -1,89 +1,41 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MoveRight } from "lucide-react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 type Step = 1 | 2 | 3 | 4;
 type Gender = "male" | "female" | "non-binary" | undefined;
 type SkillLevel = "beginner" | "intermediate" | "advanced" | "pro" | undefined;
 
+const FormSchema = z.object({
+  username: z.string().min(2).max(50),
+  email: z.string().min(2).max(50),
+  password: z.string().min(6).max(50).nonempty(),
+  gender: z.custom<Gender>(),
+  skillLevel: z.custom<SkillLevel>(),
+});
+
 const RegisterPage: React.FC = () => {
   const [step, setStep] = useState<Step>(1);
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [gender, setGender] = useState<Gender>();
-  const [skillLevel, setSkillLevel] = useState<SkillLevel>();
-  const [isFormValid, setIsFormValid] = useState<boolean>(false);
-  const [errorsPassword, setErrorsPassword] = useState<string[]>();
-  const [errorsRepeat, setErrorsRepeat] = useState<string[]>();
-
-  const checkPasswordValidity = () => {
-    const passwordInput = document.getElementById(
-      "password"
-    ) as HTMLInputElement;
-    if (!passwordInput) return;
-    const passwordValue = passwordInput.value;
-    const errorsList = [];
-    if (passwordValue.length < 8) {
-      errorsList.push("La password deve avere almeno 8 caratteri.");
-    }
-    if (!/[A-Z]/.test(passwordValue)) {
-      errorsList.push(
-        "La password deve contenere almeno una lettera maiuscola."
-      );
-    }
-    if (!/[a-z]/.test(passwordValue)) {
-      errorsList.push(
-        "La password deve contenere almeno una lettera minuscola."
-      );
-    }
-    if (!/[0-9]/.test(passwordValue)) {
-      errorsList.push("La password deve contenere almeno un numero.");
-    }
-    if (!/[!@#$%^&*]/.test(passwordValue)) {
-      errorsList.push(
-        "La password deve contenere almeno un carattere speciale."
-      );
-    }
-    setErrorsPassword(errorsList);
-  };
-
-  useEffect(() => {
-    checkPasswordValidity();
-  }, [password]);
-
-  const checkRepeatValidity = () => {
-    const repeatInput = document.getElementById(
-      "confirm-password"
-    ) as HTMLInputElement;
-    if (!repeatInput) return;
-    const repeatValue = repeatInput.value;
-    const errorsList = [];
-    if (repeatValue !== password) {
-      errorsList.push("Le password non corrispondono.");
-    }
-    setErrorsRepeat(errorsList);
-  };
-
-  useEffect(() => {
-    checkRepeatValidity();
-  }, [confirmPassword]);
-
-  const checkValidity = () => {
-    const res =
-      email.length > 0 &&
-      password.length > 0 &&
-      confirmPassword.length > 0 &&
-      username.length > 0 &&
-      errorsPassword?.length === 0 &&
-      errorsRepeat?.length === 0;
-    setIsFormValid(res);
-  };
-
-  useEffect(() => {
-    checkValidity();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      username: "",
+    },
   });
 
   const nextStep = () => {
@@ -97,39 +49,41 @@ const RegisterPage: React.FC = () => {
   const register = async () => {};
 
   return (
-    <div className="flex flex-row items-center justify-center size-full wavy-background">
-      {step === 1 && (
-        <>
-          <div className="flex flex-col items-center justify-center size-full gap-4 text-white text-6xl">
-            <div className="w-full lg:w-3/4">
-              Welcome to the archives, Wizard!
-            </div>
-            <div className="w-full lg:w-3/4 flex flex-row justify-start items-center gap-x-4 flex-nowrap">
+    <div className="flex items-center justify-center size-full wavy-background text-white text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(() => {})}>
+          {step === 1 && (
+            <div className="flex flex-col gap-2">
+              <div>Welcome to the Archives, Wizard.</div>
               <div>How do you want to be called?</div>
-              <div>
-                <input
-                  type="text"
-                  id="username"
-                  placeholder="Liliana of the Veil"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  autoFocus
-                  className="outline-none font-semibold animate-pulse"
-                />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem className="mt-2">
+                    <FormControl>
+                      <Input
+                        placeholder="Lilliana of the Veil"
+                        {...field}
+                        className="text-white font-medium animate-pulse focus-visible:animate-none border-0 outline-0 focus-visible:ring-0 ring-0 ring-shadow shadow-none placeholder:animate-pulse p-0 text-2xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl placeholder:text-2xl placeholder:md:text-3xl placeholder:lg:text-5xl placeholder:xl:text-6xl placeholder:2xl:text-7xl h-fit"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex w-full justify-end">
+                <Button
+                  variant="ghost"
+                  className="hover:bg-transparent hover:text-white hover:scale-150 cursor-pointer"
+                >
+                  <ArrowRight className="size-20 cursor-pointer" />
+                </Button>
               </div>
             </div>
-          </div>
-          <div className="w-1/10">
-            <MoveRight
-              color="white"
-              size={128}
-              className="cursor-pointer"
-              onClick={nextStep}
-            ></MoveRight>
-          </div>
-        </>
-      )}
+          )}
+        </form>
+      </Form>
     </div>
   );
 };
