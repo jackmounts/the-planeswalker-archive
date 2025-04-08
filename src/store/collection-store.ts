@@ -10,7 +10,7 @@ type CollectionAction = {
   loadCollections: () => Promise<void>;
   createCollection: (collection: Collection) => Promise<void>;
   updateCollection: (collection: Collection) => Promise<void>;
-  deleteCollection: (uuid: number) => Promise<void>;
+  deleteCollection: (uuid: string) => Promise<void>;
 };
 
 const useCollectionStore = create<CollectionState & CollectionAction>(
