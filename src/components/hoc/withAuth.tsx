@@ -9,14 +9,15 @@ const withAuth = <P extends object>(Component: React.ComponentType<P>) => {
     const router = useRouter();
     const { session } = useProfileStore();
 
-    useEffect(() => {
-      // TODO: Uncomment this when session is implemented
-      // if (!session) {
-      //   router.push("/login");
-      // }
-    }, [session, router]);
+    // TODO: Uncomment this when the session is implemented
+    // useEffect(() => {
+    //   if (!session) {
+    //     router.push("/login");
+    //   }
+    // }, [session, router]);
 
-    return session ? <Component {...props} /> : null;
+    // return session ? <Component {...props} /> : null;
+    return <Component {...props} />;
   };
 };
 
