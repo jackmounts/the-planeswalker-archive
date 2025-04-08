@@ -3,11 +3,10 @@ import useProfileStore from "@/store/profile-store";
 import { Common, Card } from "@/utils/models";
 import { OrbitControls, Preload, View } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import Image from "next/image";
+import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import warningIcon from "@public/icons/warning.svg";
 
 const LoginPage: React.FC = () => {
   const { logIn } = useProfileStore();
@@ -140,9 +139,7 @@ const LoginPage: React.FC = () => {
           </div>
           {errors && (
             <div className="flex flex-row justify-start items-center gap-x-4 w-9/10 lg:w-7/10">
-              <Image
-                src={warningIcon}
-                alt={"Warning Icon"}
+              <AlertTriangle
                 className="fill-pink-200 size-8"
                 style={{
                   filter:
