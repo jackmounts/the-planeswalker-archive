@@ -291,7 +291,7 @@ const RegisterPage: React.FC = () => {
                           Non Binary
                         </SelectItem>
                         <SelectItem value="unspecified" className="text-xl">
-                          It's a secret
+                          It&apos;s a secret
                         </SelectItem>
                       </SelectContent>
                     </Select>
