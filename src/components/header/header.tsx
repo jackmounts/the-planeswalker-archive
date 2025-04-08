@@ -50,16 +50,31 @@ const DropdownExplore: React.FC = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <Home />
-          <Link href={"/"}>Home</Link>
+          <Link
+            href={"/"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <Home />
+            Home
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <LibraryBig />
-          <Link href={"/collection"}>Collection</Link>
+        <DropdownMenuItem className="flex flex-row justify-start items-center gap-2 w-full">
+          <Link
+            href={"/collection"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <LibraryBig />
+            Collection
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <ScanQrCode />
-          <Link href={"/scanner"}>Scanner</Link>
+        <DropdownMenuItem className="flex flex-row justify-start items-center gap-2 w-full">
+          <Link
+            href={"/scanner"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <ScanQrCode />
+            Scanner
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
