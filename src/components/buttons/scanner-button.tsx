@@ -13,7 +13,7 @@ const ScannerButton: React.FC = () => {
         onClick={handleClick}
         className="rounded-full bg-[var(--primary-color)] p-4"
       >
-        <Plus />
+        <Plus className="text-white" />
       </button>
     </div>
   );

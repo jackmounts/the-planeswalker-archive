@@ -14,8 +14,11 @@ import {
   CircleUserRound,
   Home,
   LibraryBig,
+  LogOut,
   ScanQrCode,
   Search,
+  Settings,
+  User,
 } from "lucide-react";
 
 const Header: React.FC = () => {
@@ -30,7 +33,7 @@ const Header: React.FC = () => {
           />
           <Search className="text-gray-500 size-6 pe-2" />
         </div>
-        <div className="flex flex-row justify-around items-center gap-8">
+        <div className="flex flex-row justify-around items-center gap-8 max-lg:hidden">
           <DropdownExplore />
           <DropdownProfile />
         </div>
@@ -93,45 +96,30 @@ const DropdownProfile: React.FC = () => {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href={"/"}>Profile</Link>
+          <Link
+            href={"/profile"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <User />
+            Profile
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href={"/collection"}>Settings</Link>
+          <Link
+            href={"/settings"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <Settings />
+            Settings
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href={"/scanner"}>Log out</Link>
+          <LogOut />
+          <Link href={"/login"}>Log out</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-    // <div className="relative inline-block max-lg:hidden" ref={dropdownRef}>
-    //   <div
-    //     className="flex flex-row justify-center items-center hover:cursor-pointer hover:font-semibold"
-    //     onClick={toggleDropdown}
-    //   >
-    //     <Image
-    //       src={accountIcon}
-    //       alt={"Account image"}
-    //       className="size-8 hover:scale-110 hover:cursor-pointer"
-    //     />
-    //   </div>
-    //   {isDropdownOpen && (
-    //     <ul className="absolute text-lg top-full right-0 py-6 px-8 z-50 bg-white dark:bg-[var(--background)] rounded-2xl shadow-lg min-w-max">
-    //       <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer">
-    //         <Image src={personIcon} alt={"Home icon"} className="invert" />
-    //         <Link href={"/profile"} onClick={toggleDropdown}>
-    //           Profile
-    //         </Link>
-    //       </li>
-    //       <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer pt-2">
-    //         <Image src={logoutIcon} alt={"Home icon"} className="invert" />
-    //         <Link href={"/login"} onClick={toggleDropdown}>
-    //           Log out
-    //         </Link>
-    //       </li>
-    //     </ul>
-    //   )}
-    // </div>
   );
 };
 

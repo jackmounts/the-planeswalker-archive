@@ -6,13 +6,13 @@ const Footer: React.FC = () => {
     <footer>
       <div className="flex flex-row shrink-0 w-full bg-[var(--primary-color)] items-center justify-around text-lg font-semibold py-2">
         <div className="flex flex-col w-full p-4 justify-between items-center">
-          <Home />
+          <Home className="text-white" />
         </div>
         <div className="flex flex-col w-full p-4 justify-between items-center">
-          <LibraryBig />
+          <LibraryBig className="text-white" />
         </div>
         <div className="flex flex-col w-full p-4 justify-between items-center">
-          <CircleUserRound />
+          <CircleUserRound className="text-white" />
         </div>
       </div>
     </footer>
