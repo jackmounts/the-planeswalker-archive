@@ -3,7 +3,7 @@ import db, { Profile } from "@/app/db";
 import { v4 as uuidv4 } from "uuid";
 
 type ProfileState = {
-  logged_profile_uuid: number | null;
+  logged_profile_uuid: string | null;
   profile: Profile | null;
   session: string | null;
   login_error: boolean | null;
@@ -12,8 +12,15 @@ type ProfileState = {
 type ProfileAction = {
   logIn: (email: string, password: string) => Promise<void>;
   logOut: () => Promise<void>;
-  loadProfile: (uuid: number) => Promise<void>;
+  loadProfile: (uuid: string) => Promise<void>;
   updateProfile: (profile: Profile) => Promise<void>;
+  register: (
+    profile: Partial<Profile> & {
+      password: string;
+      email: string;
+      name: string;
+    }
+  ) => Promise<void>;
 };
 
 const useProfileStore = create<ProfileState & ProfileAction>((set) => ({
@@ -47,8 +54,14 @@ const useProfileStore = create<ProfileState & ProfileAction>((set) => ({
   },
 
   updateProfile: async (profile) => {
-    await db.profiles.update(1, profile);
+    await db.profiles.update(profile.uuid, profile);
     set({ profile });
+  },
+
+  register: async (profile) => {
+    const newProfile = { ...profile, uuid: uuidv4() };
+    await db.profiles.add(newProfile);
+    set({ profile: newProfile, logged_profile_uuid: newProfile.uuid });
   },
 }));
 

@@ -1,34 +1,48 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
-import searchIcon from "../../../public/icons/search.svg";
-import accountIcon from "../../../public/icons/account_circle.svg";
-import dropdownIcon from "../../../public/icons/arrow_drop_down.svg";
-import homeIcon from "../../../public/icons/home.svg";
-import collectionIcon from "../../../public/icons/library.svg";
-import addIcon from "../../../public/icons/add.svg";
-import personIcon from "../../../public/icons/person.svg";
-import logoutIcon from "../../../public/icons/logout.svg";
+import React, { useEffect } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  ChevronDown,
+  CirclePlus,
+  CircleUserRound,
+  Home,
+  LibraryBig,
+  LogOut,
+  ScanQrCode,
+  Search,
+  Settings,
+  User,
+} from "lucide-react";
+import { getPlaceholder } from "@/utils/placeholder.generator";
 
 const Header: React.FC = () => {
+  const [placeholder, setPlaceholder] = React.useState<string>("");
+
+  useEffect(() => {
+    setPlaceholder(getPlaceholder());
+  }, []);
+
   return (
     <header>
-      <div className="flex flex-row shrink-0 w-full bg-[var(--primary-color)] px-8 py-4 justify-between items-center">
+      <div className="flex flex-row shrink-0 w-full bg-gradient-to-r from-violet-400 to-[var(--primary-color)] px-8 py-4 justify-between items-center">
         <div className="relative flex items-center bg-gray-50 rounded-2xl w-4/5 text-white">
           <input
             type="text"
-            placeholder="Sol Ring"
+            placeholder={placeholder}
             className="px-4 py-1 w-full placeholder:text-gray-500 placeholder:italic text-gray-800 focus-within:outline-none"
           />
-          <Image
-            src={searchIcon}
-            alt={"Search image"}
-            className="absolute right-0 invert me-2"
-            onClick={() => console.log("Search")}
-          />
+          <Search className="text-gray-500 size-6 pe-2" />
         </div>
-        <div className="flex flex-row justify-around items-center gap-8">
+        <div className="flex flex-row justify-around items-center gap-8 max-lg:hidden">
+          <DropdownAdd />
           <DropdownExplore />
           <DropdownProfile />
         </div>
@@ -37,118 +51,101 @@ const Header: React.FC = () => {
   );
 };
 
-const DropdownExplore: React.FC = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
+const DropdownAdd: React.FC = () => {
   return (
-    <div className="relative inline-block max-lg:hidden" ref={dropdownRef}>
-      <div
-        className="flex flex-row justify-center items-center hover:cursor-pointer hover:font-semibold"
-        onClick={toggleDropdown}
-      >
-        <div className="text-white text-lg">Explore</div>
-        <Image
-          src={dropdownIcon}
-          alt={"Dropdown image"}
-          className={isDropdownOpen ? "rotate-180" : ""}
-        />
-      </div>
-      {isDropdownOpen && (
-        <ul className="absolute text-lg top-full right-0 px-8 py-6 z-50 bg-white dark:bg-[var(--background)] rounded-2xl shadow-lg min-w-max">
-          <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer">
-            <Image src={homeIcon} alt={"Home icon"} className="invert" />
-            <Link href={"/"} onClick={toggleDropdown}>
-              Home
-            </Link>
-          </li>
-          <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer py-2">
-            <Image
-              src={collectionIcon}
-              alt={"Collection icon"}
-              className="invert"
-            />
-            <Link href={"/collection"} onClick={toggleDropdown}>
-              Collection
-            </Link>
-          </li>
-          <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer">
-            <Image src={addIcon} alt={"Scanner icon"} className="invert" />
-            <Link href={"/scanner"} onClick={toggleDropdown}>
-              Scanner
-            </Link>
-          </li>
-        </ul>
-      )}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="flex flex-row justify-center items-center hover:cursor-pointer">
+          <CirclePlus className="text-[var(--primary-color)]" fill="white" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>
+          <Link href={"/collections"}>Collection</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>Card</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const DropdownExplore: React.FC = () => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="flex flex-row justify-center items-center hover:cursor-pointer">
+          <div className="text-white text-lg">Explore</div>
+          <ChevronDown className="text-white" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>
+          <Link
+            href={"/"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <Home />
+            Home
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex flex-row justify-start items-center gap-2 w-full">
+          <Link
+            href={"/collections"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <LibraryBig />
+            Collection
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex flex-row justify-start items-center gap-2 w-full">
+          <Link
+            href={"/scanner"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <ScanQrCode />
+            Scanner
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
 const DropdownProfile: React.FC = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div className="relative inline-block max-lg:hidden" ref={dropdownRef}>
-      <div
-        className="flex flex-row justify-center items-center hover:cursor-pointer hover:font-semibold"
-        onClick={toggleDropdown}
-      >
-        <Image
-          src={accountIcon}
-          alt={"Account image"}
-          className="size-8 hover:scale-110 hover:cursor-pointer"
-        />
-      </div>
-      {isDropdownOpen && (
-        <ul className="absolute text-lg top-full right-0 py-6 px-8 z-50 bg-white dark:bg-[var(--background)] rounded-2xl shadow-lg min-w-max">
-          <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer">
-            <Image src={personIcon} alt={"Home icon"} className="invert" />
-            <Link href={"/profile"} onClick={toggleDropdown}>
-              Profile
-            </Link>
-          </li>
-          <li className="flex flex-row justify-start items-center gap-1 hover:font-bold cursor-pointer pt-2">
-            <Image src={logoutIcon} alt={"Home icon"} className="invert" />
-            <Link href={"/login"} onClick={toggleDropdown}>
-              Log out
-            </Link>
-          </li>
-        </ul>
-      )}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="flex flex-row justify-center items-center hover:cursor-pointer">
+          <CircleUserRound className="text-white" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuItem>
+          <Link
+            href={"/profile"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <User />
+            Profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link
+            href={"/settings"}
+            className="flex flex-row justify-start items-center gap-2 w-full"
+          >
+            <Settings />
+            Settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <LogOut />
+          <Link href={"/login"}>Log out</Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

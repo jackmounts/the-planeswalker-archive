@@ -1,8 +1,22 @@
 import Dexie, { type EntityTable } from "dexie";
 
+export type Gender =
+  | "male"
+  | "female"
+  | "non-binary"
+  | "unspecified"
+  | undefined;
+export type SkillLevel =
+  | "beginner"
+  | "intermediate"
+  | "advanced"
+  | "pro"
+  | "unspecified"
+  | undefined;
+
 interface Card {
-  uuid: number;
-  profile_uuid: number;
+  uuid: string;
+  profile_uuid: string;
   code: string;
   number: number;
   id?: string;
@@ -18,26 +32,30 @@ interface Card {
 }
 
 interface Collection {
-  uuid: number;
-  profile_uuid: number;
+  uuid: string;
+  profile_uuid: string;
   name: string;
   type: "deck" | "collection" | "binder" | "whishlist" | "bulk";
   description?: string;
   group?: string;
   cards?: Card[];
+  last_updated?: Date;
+  favourite?: boolean;
 }
 
 interface Profile {
-  uuid: number;
+  uuid: string;
   name: string;
   email: string;
   password: string;
-  preferences: {
+  preferences?: {
     currency: string;
     storageLimit: number;
   };
   is_active?: boolean;
   collections?: Collection[];
+  skillLevel?: SkillLevel;
+  gender?: Gender;
 }
 
 const db = new Dexie("mtgdb") as Dexie & {

@@ -8,14 +8,6 @@ const withPWA = require("next-pwa")({
 });
 
 const nextConfig: NextConfig = withPWA({
-  async rewrites() {
-    return [
-      {
-        source: "/:path*",
-        destination: "/pages/:path*",
-      },
-    ];
-  },
   images: {
     localPatterns: [
       {

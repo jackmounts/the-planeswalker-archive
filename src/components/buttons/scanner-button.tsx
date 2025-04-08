@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import addIcon from "../../../public/icons/add.svg";
+import { Plus } from "lucide-react";
 
 const ScannerButton: React.FC = () => {
   const handleClick = () => {
@@ -14,7 +13,7 @@ const ScannerButton: React.FC = () => {
         onClick={handleClick}
         className="rounded-full bg-[var(--primary-color)] p-4"
       >
-        <Image src={addIcon} alt={"Add icon"} className="size-[30]"></Image>
+        <Plus className="text-white" />
       </button>
     </div>
   );
