@@ -32,6 +32,9 @@ const LoginPage: React.FC = () => {
 
   const login = async () => {
     if (!isFormValid) return;
+    // TODO: remove this when session is implemented
+    router.push("/");
+    // ---------------
     await logIn(email, password)
       .then(() => {
         setErrors("");
