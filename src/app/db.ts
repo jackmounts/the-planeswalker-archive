@@ -16,7 +16,7 @@ export type SkillLevel =
 
 interface Card {
   uuid: string;
-  profile_uuid: number;
+  profile_uuid: string;
   code: string;
   number: number;
   id?: string;
@@ -33,12 +33,14 @@ interface Card {
 
 interface Collection {
   uuid: string;
-  profile_uuid: number;
+  profile_uuid: string;
   name: string;
   type: "deck" | "collection" | "binder" | "whishlist" | "bulk";
   description?: string;
   group?: string;
   cards?: Card[];
+  last_updated?: Date;
+  favourite?: boolean;
 }
 
 interface Profile {

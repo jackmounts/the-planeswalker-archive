@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,15 +20,22 @@ import {
   Settings,
   User,
 } from "lucide-react";
+import { getPlaceholder } from "@/utils/placeholder.generator";
 
 const Header: React.FC = () => {
+  const [placeholder, setPlaceholder] = React.useState<string>("");
+
+  useEffect(() => {
+    setPlaceholder(getPlaceholder());
+  }, []);
+
   return (
     <header>
       <div className="flex flex-row shrink-0 w-full bg-[var(--primary-color)] px-8 py-4 justify-between items-center">
         <div className="relative flex items-center bg-gray-50 rounded-2xl w-4/5 text-white">
           <input
             type="text"
-            placeholder="Sol Ring"
+            placeholder={placeholder}
             className="px-4 py-1 w-full placeholder:text-gray-500 placeholder:italic text-gray-800 focus-within:outline-none"
           />
           <Search className="text-gray-500 size-6 pe-2" />
@@ -46,7 +53,7 @@ const DropdownExplore: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex flex-row justify-center items-center hover:cursor-pointer hover:scale-105">
+        <div className="flex flex-row justify-center items-center hover:cursor-pointer">
           <div className="text-white text-lg">Explore</div>
           <ChevronDown className="text-white" />
         </div>
@@ -63,7 +70,7 @@ const DropdownExplore: React.FC = () => {
         </DropdownMenuItem>
         <DropdownMenuItem className="flex flex-row justify-start items-center gap-2 w-full">
           <Link
-            href={"/collection"}
+            href={"/collections"}
             className="flex flex-row justify-start items-center gap-2 w-full"
           >
             <LibraryBig />
@@ -88,13 +95,12 @@ const DropdownProfile: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex flex-row justify-center items-center hover:cursor-pointer hover:scale-105">
+        <div className="flex flex-row justify-center items-center hover:cursor-pointer">
           <CircleUserRound className="text-white" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link
             href={"/profile"}
