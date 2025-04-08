@@ -5,5 +5,7 @@ export default function RegisterLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="overflow-hidden size-full">{children}</div>;
+  return (
+    <div className="overflow-hidden size-full wavy-background">{children}</div>
+  );
 }
