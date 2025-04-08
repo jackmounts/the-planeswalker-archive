@@ -7,7 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -23,7 +22,7 @@ import { Star } from "lucide-react";
 export const columns: ColumnDef<Collection>[] = [
   {
     accessorKey: "favourite",
-    header: ({ column }) => {
+    header: () => {
       return <div className="max-w-xs"></div>;
     },
 
@@ -97,7 +96,7 @@ export const columns: ColumnDef<Collection>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className="flex justify-end w-full">
           <DropdownMenu>

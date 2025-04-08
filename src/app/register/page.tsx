@@ -241,7 +241,7 @@ const RegisterPage: React.FC = () => {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="unspecified" className="text-xl">
-                          I'm new to the arts
+                          I&apos;m new to the arts
                         </SelectItem>
                         <SelectItem value="beginner" className="text-xl">
                           A beginner
@@ -253,7 +253,7 @@ const RegisterPage: React.FC = () => {
                           Quite good
                         </SelectItem>
                         <SelectItem value="pro" className="text-xl">
-                          I'm level 20
+                          I&apos;m level 20
                         </SelectItem>
                       </SelectContent>
                     </Select>

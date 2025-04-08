@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   ChevronDown,
+  CirclePlus,
   CircleUserRound,
   Home,
   LibraryBig,
@@ -31,7 +32,7 @@ const Header: React.FC = () => {
 
   return (
     <header>
-      <div className="flex flex-row shrink-0 w-full bg-[var(--primary-color)] px-8 py-4 justify-between items-center">
+      <div className="flex flex-row shrink-0 w-full bg-gradient-to-r from-violet-400 to-[var(--primary-color)] px-8 py-4 justify-between items-center">
         <div className="relative flex items-center bg-gray-50 rounded-2xl w-4/5 text-white">
           <input
             type="text"
@@ -41,11 +42,30 @@ const Header: React.FC = () => {
           <Search className="text-gray-500 size-6 pe-2" />
         </div>
         <div className="flex flex-row justify-around items-center gap-8 max-lg:hidden">
+          <DropdownAdd />
           <DropdownExplore />
           <DropdownProfile />
         </div>
       </div>
     </header>
+  );
+};
+
+const DropdownAdd: React.FC = () => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="flex flex-row justify-center items-center hover:cursor-pointer">
+          <CirclePlus className="text-(--primary-color)" fill="white" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>
+          <Link href={"/collections"}>Collection</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>Card</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

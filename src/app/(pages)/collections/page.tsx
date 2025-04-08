@@ -5,7 +5,7 @@ import React from "react";
 import { columns } from "./columns";
 import { Collection } from "@/app/db";
 import { Button } from "@/components/ui/button";
-import { Filter, ListFilter, Pencil, Plus } from "lucide-react";
+import { ListFilter, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 const CollectionPage: React.FC = () => {
