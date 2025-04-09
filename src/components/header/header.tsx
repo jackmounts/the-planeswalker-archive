@@ -56,7 +56,7 @@ const DropdownAdd: React.FC = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex flex-row justify-center items-center hover:cursor-pointer">
-          <CirclePlus className="text-(--primary-color)" fill="white" />
+          <CirclePlus className="text-[var(--primary-color)]" fill="white" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
