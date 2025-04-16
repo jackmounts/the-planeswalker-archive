@@ -14,6 +14,7 @@ type ProfileState = {
   profile: Profile | null;
   session: string | null;
   login_error?: boolean | null;
+  register_error?: string | null;
 };
 
 type ProfileAction = {
@@ -39,6 +40,7 @@ const useProfileStore = create(
       profile: null,
       session: null,
       login_error: null,
+      register_error: null,
 
       logIn: async (email, password) => {
         const sessionId = uuidv4();
@@ -91,6 +93,15 @@ const useProfileStore = create(
       },
 
       register: async (profile) => {
+        const existingProfile = await db.profiles
+          .where({ email: profile.email })
+          .first();
+        if (existingProfile) {
+          set({
+            register_error: "Another wizard already took your email address!",
+          });
+        }
+
         const uuid = uuidv4();
         const salt = getRandomBytes(16);
         const iv = getRandomBytes(12);
