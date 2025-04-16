@@ -27,6 +27,7 @@ import { Reenie_Beanie } from "next/font/google";
 import LoadingScroll from "./_loading";
 import { Gender, SkillLevel } from "../db";
 import { useRouter } from "next/navigation";
+import useProfileStore from "@/store/profile-store";
 
 type Step = 1 | 2 | 3 | 4 | 5;
 
@@ -56,12 +57,13 @@ const FormSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ["confirm"],
+    path: ["confirmPassword"],
   });
 
 const handwritten = Reenie_Beanie({ weight: "400", subsets: ["latin"] });
 
 const RegisterPage: React.FC = () => {
+  const { register } = useProfileStore();
   const [step, setStep] = useState<Step>(1);
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -88,11 +90,25 @@ const RegisterPage: React.FC = () => {
     setStep((prev) => (prev - 1) as Step);
   };
 
-  const register = async () => {
+  const handleRegistration = async () => {
     setStep(5);
-    await new Promise((resolve) => setTimeout(resolve, 3000)).then(() => {
+    try {
+      await register({
+        name: form.getValues("username"),
+        email: form.getValues("email"),
+        password: form.getValues("password"),
+        skillLevel: form.getValues("skillLevel"),
+        gender: form.getValues("gender"),
+      });
+
+      // TODO: Remove if you find something better
+      // Simula tempo di attesa per UX (opzionale)
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       router.push("/login");
-    });
+    } catch (error) {
+      console.error("Errore registrazione:", error);
+    }
   };
 
   useEffect(() => {
@@ -392,7 +408,7 @@ const RegisterPage: React.FC = () => {
                     variant="ghost"
                     className="hover:bg-transparent hover:text-white hover:scale-105 hover:underline cursor-pointer text-2xl lg:text-4xl italic max-w-full whitespace-break-spaces"
                     disabled={!isPasswordValid}
-                    onClick={register}
+                    onClick={handleRegistration}
                   >
                     Complete your registration to the Archives
                     <ScrollText className="size-5 lg:size-10 max-sm:hidden" />
