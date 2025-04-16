@@ -1,6 +1,12 @@
 import { create } from "zustand";
 import db, { Profile } from "@/app/db";
 import { v4 as uuidv4 } from "uuid";
+import {
+  getRandomBytes,
+  deriveKey,
+  encryptPassword,
+  decryptPassword,
+} from "@/lib/crypto";
 
 type ProfileState = {
   logged_profile_uuid: string | null;
@@ -31,15 +37,34 @@ const useProfileStore = create<ProfileState & ProfileAction>((set) => ({
 
   logIn: async (email, password) => {
     const sessionId = uuidv4();
-    const profile = await db.profiles.where({ email, password }).first();
-    if (profile) {
-      set({
-        logged_profile_uuid: profile.uuid,
-        session: sessionId,
-        profile,
-        login_error: false,
-      });
-    } else {
+    const profile = await db.profiles.where({ email }).first();
+
+    if (!profile) {
+      set({ login_error: true });
+      return;
+    }
+
+    try {
+      const salt = Uint8Array.from(atob(profile.salt), (c) => c.charCodeAt(0));
+      const iv = Uint8Array.from(atob(profile.iv), (c) => c.charCodeAt(0));
+      const encrypted = Uint8Array.from(atob(profile.password), (c) =>
+        c.charCodeAt(0)
+      );
+      const key = await deriveKey(password, salt);
+      const decryptedPassword = await decryptPassword(encrypted, key, iv);
+
+      if (decryptedPassword === password) {
+        set({
+          logged_profile_uuid: profile.uuid,
+          session: sessionId,
+          profile,
+          login_error: false,
+        });
+      } else {
+        set({ login_error: true });
+      }
+    } catch (err) {
+      console.error("Errore nella decriptazione:", err);
       set({ login_error: true });
     }
   },
@@ -59,9 +84,22 @@ const useProfileStore = create<ProfileState & ProfileAction>((set) => ({
   },
 
   register: async (profile) => {
-    const newProfile = { ...profile, uuid: uuidv4() };
+    const uuid = uuidv4();
+    const salt = getRandomBytes(16);
+    const iv = getRandomBytes(12);
+    const key = await deriveKey(profile.password!, salt);
+    const encryptedPassword = await encryptPassword(profile.password!, key, iv);
+
+    const newProfile: Profile = {
+      ...profile,
+      uuid,
+      password: Buffer.from(encryptedPassword).toString("base64"),
+      salt: Buffer.from(salt).toString("base64"),
+      iv: Buffer.from(iv).toString("base64"),
+    };
+
     await db.profiles.add(newProfile);
-    set({ profile: newProfile, logged_profile_uuid: newProfile.uuid });
+    set({ profile: newProfile, logged_profile_uuid: uuid });
   },
 }));
 

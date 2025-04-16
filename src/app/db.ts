@@ -56,6 +56,8 @@ interface Profile {
   collections?: Collection[];
   skillLevel?: SkillLevel;
   gender?: Gender;
+  salt: string;
+  iv: string;
 }
 
 const db = new Dexie("mtgdb") as Dexie & {
